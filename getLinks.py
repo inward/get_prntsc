@@ -27,13 +27,17 @@ def scrape_pictures(picture_url):
     filename = picture_url.rsplit('/', 1)[-1]
     h = httplib2.Http()
     response, content = h.request(picture_url)
-    out = open(filename, 'wb')
-    out.write(content)
-    out.close()
+    try:
+        out = open(filename, 'wb')
+        out.write(content)
+        out.close()
+    except AssertionError as error:
+        print(error)
 
 
-# base_url = 'https://prnt.sc/m6lwrl'
-url = "https://prnt.sc/m60"
-url += ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(3))
-link_url = (get_link(url))
-scrape_pictures(link_url)
+for i in range(0, 10000):
+    url = "https://prnt.sc/m60"
+    url += ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(3))
+    link_url = (get_link(url))
+    print(url)
+    scrape_pictures(link_url)
